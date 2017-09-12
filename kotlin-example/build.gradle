@@ -1,0 +1,52 @@
+buildscript {
+    ext.kotlin_version = '1.1.4-3'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.8
+mainClassName = 'io.vertx.core.Launcher'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/iovertx-2993"
+    }
+}
+
+dependencies {
+    compile "io.vertx:vertx-core:3.4.2"
+    compile "io.vertx:vertx-web:3.4.2"
+    compile "org.apache.logging.log4j:log4j-api:2.6"
+    compile "org.apache.logging.log4j:log4j-core:2.6"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+}
+
+shadowJar {
+    classifier = 'fat'
+    manifest {
+        attributes 'Main-Verticle': 'au.com.shiftyjelly.labs.kotlinexample.MainVerticle'
+    }
+    mergeServiceFiles {
+        include 'META-INF/services/io.vertx.core.spi.VerticleFactory'
+    }
+}
+
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
