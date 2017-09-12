@@ -14,9 +14,7 @@ class MainVerticle: AbstractVerticle() {
         router.get("/hello").handler({ this.handleHello(it) })
 
         //start our server
-        val port = 5000
-        print("Starting server on port $port")
-        vertx.createHttpServer().requestHandler( { router.accept(it) }).listen(port)
+        vertx.createHttpServer().requestHandler( { router.accept(it) }).listen(5000)
     }
 
     private fun handleHello(routingContext: RoutingContext) {
