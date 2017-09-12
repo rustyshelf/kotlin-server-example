@@ -32,6 +32,8 @@ class MainVerticle: AbstractVerticle() {
         response.message = "Welcome stranger"
         response.code = 150
 
+        response.people = listOf(CocoaHead("Person 1", 0), CocoaHead("Person 2", 100))
+
         val jsonObject = JsonObject(Json.encode(response))
 
         routingContext.response().setChunked(true).write(jsonObject.encodePrettily()).putHeader("Content-Type", "application/json").setStatusCode(HTTP_OK).end()
